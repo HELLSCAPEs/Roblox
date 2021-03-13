@@ -1,0 +1,751 @@
+-- Gui to Lua
+-- Version: 3.2
+
+-- Instances:
+
+local Talk = Instance.new("ScreenGui")
+local ChatImposter = Instance.new("Frame")
+local RobloxChat = Instance.new("TextBox")
+local TextLabel = Instance.new("TextLabel")
+local TextLabel_2 = Instance.new("TextLabel")
+local Current = Instance.new("TextLabel")
+local ChangeName = Instance.new("TextButton")
+local MainModule = Instance.new("ModuleScript")
+
+--Properties:
+
+Talk.Name = "Talk"
+Talk.Parent = game.Workspace.MainModule
+Talk.ResetOnSpawn = false
+
+ChatImposter.Name = "ChatImposter"
+ChatImposter.Parent = Talk
+ChatImposter.BackgroundColor3 = Color3.fromRGB(43, 43, 43)
+ChatImposter.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ChatImposter.BorderSizePixel = 5
+ChatImposter.Position = UDim2.new(0.374062955, 0, 0.380835384, 0)
+ChatImposter.Size = UDim2.new(0, 336, 0, 193)
+
+RobloxChat.Name = "RobloxChat"
+RobloxChat.Parent = ChatImposter
+RobloxChat.BackgroundColor3 = Color3.fromRGB(43, 43, 43)
+RobloxChat.BorderColor3 = Color3.fromRGB(0, 0, 0)
+RobloxChat.BorderSizePixel = 5
+RobloxChat.Position = UDim2.new(0, 0, 0.740932643, 0)
+RobloxChat.Size = UDim2.new(0, 336, 0, 50)
+RobloxChat.Font = Enum.Font.SourceSans
+RobloxChat.PlaceholderColor3 = Color3.fromRGB(200, 200, 200)
+RobloxChat.PlaceholderText = "[TEXT]"
+RobloxChat.Text = ""
+RobloxChat.TextColor3 = Color3.fromRGB(255, 255, 255)
+RobloxChat.TextSize = 20.000
+
+TextLabel.Parent = ChatImposter
+TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.BackgroundTransparency = 1.000
+TextLabel.BorderSizePixel = 0
+TextLabel.Size = UDim2.new(0, 336, 0, 26)
+TextLabel.Font = Enum.Font.SourceSans
+TextLabel.Text = "2ds Imposter Chat Gui"
+TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.TextSize = 20.000
+
+TextLabel_2.Parent = ChatImposter
+TextLabel_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel_2.BackgroundTransparency = 1.000
+TextLabel_2.BorderSizePixel = 0
+TextLabel_2.Position = UDim2.new(0, 0, 0.134715021, 0)
+TextLabel_2.Size = UDim2.new(0, 336, 0, 26)
+TextLabel_2.Font = Enum.Font.SourceSans
+TextLabel_2.Text = "Current:"
+TextLabel_2.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel_2.TextSize = 20.000
+
+Current.Name = "Current"
+Current.Parent = ChatImposter
+Current.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Current.BackgroundTransparency = 1.000
+Current.BorderSizePixel = 0
+Current.Position = UDim2.new(0, 0, 0.269430041, 0)
+Current.Size = UDim2.new(0, 336, 0, 51)
+Current.Font = Enum.Font.SourceSans
+Current.Text = "ROBLOX"
+Current.TextColor3 = Color3.fromRGB(255, 255, 255)
+Current.TextSize = 50.000
+Current.TextWrapped = true
+
+ChangeName.Name = "ChangeName"
+ChangeName.Parent = ChatImposter
+ChangeName.BackgroundColor3 = Color3.fromRGB(43, 43, 43)
+ChangeName.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ChangeName.BorderSizePixel = 5
+ChangeName.Position = UDim2.new(0, 0, -0.103626966, 0)
+ChangeName.Size = UDim2.new(0, 336, 0, 20)
+ChangeName.Font = Enum.Font.SourceSans
+ChangeName.Text = "Change Name"
+ChangeName.TextColor3 = Color3.fromRGB(255, 255, 255)
+ChangeName.TextSize = 14.000
+
+MainModule.Name = "MainModule"
+MainModule.Parent = workspace
+MainModule.Archivable = true
+MainModule.ClassName = "ModuleScript"
+
+-- Module Scripts:
+
+local fake_module_scripts = {}
+
+do -- nil.MainModule
+	local script = Instance.new('ModuleScript', nil)
+	script.Name = "MainModule"
+	local function module_script()
+		local Conversion = {}
+		local Converting = script["Talk"]
+		
+		function Conversion.load(Player)
+				Converting:Clone().Parent = game:GetService("Players")[Player].PlayerGui
+				game:GetService("RunService").RenderStepped:wait()
+				getfenv().script = Instance.new("ModuleScript")
+			end
+		
+		return Conversion
+	end
+	fake_module_scripts[script] = module_script
+end
+
+
+-- Scripts:
+
+local function RAAB_fake_script() -- ChatImposter.LocalScript 
+	local script = Instance.new('LocalScript', ChatImposter)
+	local req = require
+	local require = function(obj)
+		local fake = fake_module_scripts[obj]
+		if fake then
+			return fake()
+		end
+		return req(obj)
+	end
+
+	local gui = script.Parent
+	local RobloxChat = gui:WaitForChild("RobloxChat")
+	
+	RobloxChat.FocusLost:Connect(function(enter)
+	if enter then
+		if script.Parent.Current.Text == "ROBLOX" then
+		script:WaitForChild("ROBLOX"):WaitForChild("Say"):FireServer(game:GetService("Players").LocalPlayer.Character.Head,RobloxChat.Text)
+		RobloxChat.Text = ""
+	elseif enter then
+		if script.Parent.Current.Text == "InceptionTime" then
+		script:WaitForChild("InceptionTime"):WaitForChild("Say"):FireServer(game:GetService("Players").LocalPlayer.Character.Head,RobloxChat.Text)
+		RobloxChat.Text = ""
+	elseif enter then
+		if script.Parent.Current.Text == "John Doe" then
+		script:WaitForChild("John Doe"):WaitForChild("Say"):FireServer(game:GetService("Players").LocalPlayer.Character.Head,RobloxChat.Text)
+		RobloxChat.Text = ""
+	elseif enter then
+		if script.Parent.Current.Text == "Jane Doe" then
+		script:WaitForChild("Jane Doe"):WaitForChild("Say"):FireServer(game:GetService("Players").LocalPlayer.Character.Head,RobloxChat.Text)
+		RobloxChat.Text = ""
+	elseif enter then
+		if script.Parent.Current.Text == "h" then
+		script:WaitForChild("h"):WaitForChild("Say"):FireServer(game:GetService("Players").LocalPlayer.Character.Head,RobloxChat.Text)
+		RobloxChat.Text = ""
+	elseif enter then
+		if script.Parent.Current.Text == "DenisDaily" then
+		script:WaitForChild("DenisDaily"):WaitForChild("Say"):FireServer(game:GetService("Players").LocalPlayer.Character.Head,RobloxChat.Text)
+		RobloxChat.Text = ""
+	elseif enter then
+		if script.Parent.Current.Text == "a literal pile of fucking shit!!!!" then
+		script:WaitForChild("a literal pile of fucking shit!!!!"):WaitForChild("Say"):FireServer(game:GetService("Players").LocalPlayer.Character.Head,RobloxChat.Text)
+		RobloxChat.Text = ""
+	elseif enter then
+		if script.Parent.Current.Text == "Dick_Suxxx" then
+		script:WaitForChild("Dick_Suxxx"):WaitForChild("Say"):FireServer(game:GetService("Players").LocalPlayer.Character.Head,RobloxChat.Text)
+		RobloxChat.Text = ""
+	elseif enter then
+		if script.Parent.Current.Text == "System" then
+		script:WaitForChild("System"):WaitForChild("Say"):FireServer(game:GetService("Players").LocalPlayer.Character.Head,RobloxChat.Text)
+		RobloxChat.Text = ""
+	elseif enter then
+		if script.Parent.Current.Text == "#########" then
+		script:WaitForChild("#########"):WaitForChild("Say"):FireServer(game:GetService("Players").LocalPlayer.Character.Head,RobloxChat.Text)
+		RobloxChat.Text = ""
+	elseif enter then
+		if script.Parent.Current.Text == "Anonymous" then
+		script:WaitForChild("Anonymous"):WaitForChild("Say"):FireServer(game:GetService("Players").LocalPlayer.Character.Head,RobloxChat.Text)
+		RobloxChat.Text = ""
+	elseif enter then
+		if script.Parent.Current.Text == "пенис" then
+		script:WaitForChild("пенис"):WaitForChild("Say"):FireServer(game:GetService("Players").LocalPlayer.Character.Head,RobloxChat.Text)
+		RobloxChat.Text = ""
+	elseif enter then
+		if script.Parent.Current.Text == "Creeper" then
+		script:WaitForChild("Creeper"):WaitForChild("Say"):FireServer(game:GetService("Players").LocalPlayer.Character.Head,RobloxChat.Text)
+		RobloxChat.Text = ""
+	elseif enter then
+		if script.Parent.Current.Text == "Mr. Ware" then
+		script:WaitForChild("Mr. Ware"):WaitForChild("Say"):FireServer(game:GetService("Players").LocalPlayer.Character.Head,RobloxChat.Text)
+		RobloxChat.Text = ""
+	end
+	end
+	end
+	end
+	end
+	end
+	end
+	end
+	end
+	end
+	end
+	end
+	end
+	end
+	end
+	end)
+end
+coroutine.wrap(RAAB_fake_script)()
+local function UXPXHU_fake_script() -- nil.ROBLOX 
+	local script = Instance.new('Script', nil)
+	local req = require
+	local require = function(obj)
+		local fake = fake_module_scripts[obj]
+		if fake then
+			return fake()
+		end
+		return req(obj)
+	end
+
+	local sayRemote = script:WaitForChild("Say")
+	
+	sayRemote.OnServerEvent:Connect(function(plr,par,msg)
+		game:GetService("Chat"):Chat(par,msg)
+		
+		local data = {
+			ID = math.random(),
+			FromSpeaker = "ROBLOX",
+			SpeakerUserId = 123456,
+			OriginalChannel = "All",
+			IsFiltered = true,
+			MessageLength = string.len(msg),
+			Message = msg,
+			MessageType = "Message",
+			Time = os.time(),
+			ExtraData = {NameColor = Color3.fromRGB(218,133,65), ChatColor = Color3.fromRGB(255,176,0)}
+		}
+		local remote = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFiltering:FireAllClients(data,"All")
+	end)
+end
+coroutine.wrap(UXPXHU_fake_script)()
+local function HTFTZ_fake_script() -- nil.InceptionTime 
+	local script = Instance.new('Script', nil)
+	local req = require
+	local require = function(obj)
+		local fake = fake_module_scripts[obj]
+		if fake then
+			return fake()
+		end
+		return req(obj)
+	end
+
+	local sayRemote = script:WaitForChild("Say")
+	
+	sayRemote.OnServerEvent:Connect(function(plr,par,msg)
+		game:GetService("Chat"):Chat(par,msg)
+		
+		local data = {
+			ID = math.random(),
+			FromSpeaker = "InceptionTime",
+			SpeakerUserId = 123456,
+			OriginalChannel = "All",
+			IsFiltered = true,
+			MessageLength = string.len(msg),
+			Message = msg,
+			MessageType = "Message",
+			Time = os.time(),
+			ExtraData = {NameColor = Color3.fromRGB(218,133,65), ChatColor = Color3.fromRGB(255,176,0)}
+		}
+		local remote = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFiltering:FireAllClients(data,"All")
+	end)
+end
+coroutine.wrap(HTFTZ_fake_script)()
+local function XUFKJ_fake_script() -- nil.John Doe 
+	local script = Instance.new('Script', nil)
+	local req = require
+	local require = function(obj)
+		local fake = fake_module_scripts[obj]
+		if fake then
+			return fake()
+		end
+		return req(obj)
+	end
+
+	local sayRemote = script:WaitForChild("Say")
+	
+	sayRemote.OnServerEvent:Connect(function(plr,par,msg)
+		game:GetService("Chat"):Chat(par,msg)
+		
+		local data = {
+			ID = math.random(),
+			FromSpeaker = "John Doe",
+			SpeakerUserId = 123456,
+			OriginalChannel = "All",
+			IsFiltered = true,
+			MessageLength = string.len(msg),
+			Message = msg,
+			MessageType = "Message",
+			Time = os.time(),
+			ExtraData = {NameColor = Color3.fromRGB(218,133,65), ChatColor = Color3.fromRGB(255,255,255)}
+		}
+		local remote = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFiltering:FireAllClients(data,"All")
+	end)
+end
+coroutine.wrap(XUFKJ_fake_script)()
+local function XLLVQI_fake_script() -- nil.Jane Doe 
+	local script = Instance.new('Script', nil)
+	local req = require
+	local require = function(obj)
+		local fake = fake_module_scripts[obj]
+		if fake then
+			return fake()
+		end
+		return req(obj)
+	end
+
+	local sayRemote = script:WaitForChild("Say")
+	
+	sayRemote.OnServerEvent:Connect(function(plr,par,msg)
+		game:GetService("Chat"):Chat(par,msg)
+		
+		local data = {
+			ID = math.random(),
+			FromSpeaker = "Jane Doe",
+			SpeakerUserId = 123456,
+			OriginalChannel = "All",
+			IsFiltered = true,
+			MessageLength = string.len(msg),
+			Message = msg,
+			MessageType = "Message",
+			Time = os.time(),
+			ExtraData = {NameColor = Color3.fromRGB(218,133,65), ChatColor = Color3.fromRGB(255,255,255)}
+		}
+		local remote = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFiltering:FireAllClients(data,"All")
+	end)
+end
+coroutine.wrap(XLLVQI_fake_script)()
+local function MUAPC_fake_script() -- nil.h 
+	local script = Instance.new('Script', nil)
+	local req = require
+	local require = function(obj)
+		local fake = fake_module_scripts[obj]
+		if fake then
+			return fake()
+		end
+		return req(obj)
+	end
+
+	local sayRemote = script:WaitForChild("Say")
+	
+	sayRemote.OnServerEvent:Connect(function(plr,par,msg)
+		game:GetService("Chat"):Chat(par,msg)
+		
+		local data = {
+			ID = math.random(),
+			FromSpeaker = "h",
+			SpeakerUserId = 123456,
+			OriginalChannel = "All",
+			IsFiltered = true,
+			MessageLength = string.len(msg),
+			Message = msg,
+			MessageType = "Message",
+			Time = os.time(),
+			ExtraData = {NameColor = Color3.fromRGB(200,0,0), ChatColor = Color3.fromRGB(255,255,255)}
+		}
+		local remote = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFiltering:FireAllClients(data,"All")
+	end)
+end
+coroutine.wrap(MUAPC_fake_script)()
+local function NNCPRNR_fake_script() -- nil.DenisDaily 
+	local script = Instance.new('Script', nil)
+	local req = require
+	local require = function(obj)
+		local fake = fake_module_scripts[obj]
+		if fake then
+			return fake()
+		end
+		return req(obj)
+	end
+
+	local sayRemote = script:WaitForChild("Say")
+	
+	sayRemote.OnServerEvent:Connect(function(plr,par,msg)
+		game:GetService("Chat"):Chat(par,msg)
+		
+		local data = {
+			ID = math.random(),
+			FromSpeaker = "DenisDaily",
+			SpeakerUserId = 123456,
+			OriginalChannel = "All",
+			IsFiltered = true,
+			MessageLength = string.len(msg),
+			Message = msg,
+			MessageType = "Message",
+			Time = os.time(),
+			ExtraData = {NameColor = Color3.fromRGB(218,133,65), ChatColor = Color3.fromRGB(255,255,255)}
+		}
+		local remote = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFiltering:FireAllClients(data,"All")
+	end)
+end
+coroutine.wrap(NNCPRNR_fake_script)()
+local function RAIBNI_fake_script() -- nil.a literal pile of fucking shit!!!! 
+	local script = Instance.new('Script', nil)
+	local req = require
+	local require = function(obj)
+		local fake = fake_module_scripts[obj]
+		if fake then
+			return fake()
+		end
+		return req(obj)
+	end
+
+	local sayRemote = script:WaitForChild("Say")
+	
+	sayRemote.OnServerEvent:Connect(function(plr,par,msg)
+		game:GetService("Chat"):Chat(par,msg)
+		
+		local data = {
+			ID = math.random(),
+			FromSpeaker = "a literal pile of fucking shit!!!!",
+			SpeakerUserId = 123456,
+			OriginalChannel = "All",
+			IsFiltered = true,
+			MessageLength = string.len(msg),
+			Message = msg,
+			MessageType = "Message",
+			Time = os.time(),
+			ExtraData = {NameColor = Color3.fromRGB(200,150,0), ChatColor = Color3.fromRGB(255,255,255)}
+		}
+		local remote = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFiltering:FireAllClients(data,"All")
+	end)
+end
+coroutine.wrap(RAIBNI_fake_script)()
+local function JZKPTR_fake_script() -- nil.Dick_Suxxx 
+	local script = Instance.new('Script', nil)
+	local req = require
+	local require = function(obj)
+		local fake = fake_module_scripts[obj]
+		if fake then
+			return fake()
+		end
+		return req(obj)
+	end
+
+	local sayRemote = script:WaitForChild("Say")
+	
+	sayRemote.OnServerEvent:Connect(function(plr,par,msg)
+		game:GetService("Chat"):Chat(par,msg)
+		
+		local data = {
+			ID = math.random(),
+			FromSpeaker = "Dick_Suxxx",
+			SpeakerUserId = 123456,
+			OriginalChannel = "All",
+			IsFiltered = true,
+			MessageLength = string.len(msg),
+			Message = msg,
+			MessageType = "Message",
+			Time = os.time(),
+			ExtraData = {NameColor = Color3.fromRGB(230,0,0), ChatColor = Color3.fromRGB(255,255,255)}
+		}
+		local remote = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFiltering:FireAllClients(data,"All")
+	end)
+end
+coroutine.wrap(JZKPTR_fake_script)()
+local function VPXOBL_fake_script() -- nil.System 
+	local script = Instance.new('Script', nil)
+	local req = require
+	local require = function(obj)
+		local fake = fake_module_scripts[obj]
+		if fake then
+			return fake()
+		end
+		return req(obj)
+	end
+
+	local sayRemote = script:WaitForChild("Say")
+	
+	sayRemote.OnServerEvent:Connect(function(plr,par,msg)
+		game:GetService("Chat"):Chat(par,msg)
+		
+		local data = {
+			ID = math.random(),
+			FromSpeaker = "System",
+			SpeakerUserId = 123456,
+			OriginalChannel = "All",
+			IsFiltered = true,
+			MessageLength = string.len(msg),
+			Message = msg,
+			MessageType = "Message",
+			Time = os.time(),
+			ExtraData = {NameColor = Color3.fromRGB(255,255,255), ChatColor = Color3.fromRGB(255,255,255)}
+		}
+		local remote = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFiltering:FireAllClients(data,"All")
+	end)
+end
+coroutine.wrap(VPXOBL_fake_script)()
+local function FVNAQCX_fake_script() -- nil.######### 
+	local script = Instance.new('Script', nil)
+	local req = require
+	local require = function(obj)
+		local fake = fake_module_scripts[obj]
+		if fake then
+			return fake()
+		end
+		return req(obj)
+	end
+
+	local sayRemote = script:WaitForChild("Say")
+	
+	sayRemote.OnServerEvent:Connect(function(plr,par,msg)
+		game:GetService("Chat"):Chat(par,msg)
+		
+		local data = {
+			ID = math.random(),
+			FromSpeaker = "#########",
+			SpeakerUserId = 123456,
+			OriginalChannel = "All",
+			IsFiltered = true,
+			MessageLength = string.len(msg),
+			Message = msg,
+			MessageType = "Message",
+			Time = os.time(),
+			ExtraData = {NameColor = Color3.fromRGB(218,133,0), ChatColor = Color3.fromRGB(255,255,255)}
+		}
+		local remote = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFiltering:FireAllClients(data,"All")
+	end)
+end
+coroutine.wrap(FVNAQCX_fake_script)()
+local function BQNQOF_fake_script() -- nil.Anonymous 
+	local script = Instance.new('Script', nil)
+	local req = require
+	local require = function(obj)
+		local fake = fake_module_scripts[obj]
+		if fake then
+			return fake()
+		end
+		return req(obj)
+	end
+
+	local sayRemote = script:WaitForChild("Say")
+	
+	sayRemote.OnServerEvent:Connect(function(plr,par,msg)
+		game:GetService("Chat"):Chat(par,msg)
+		
+		local data = {
+			ID = math.random(),
+			FromSpeaker = "Anonymous",
+			SpeakerUserId = 123456,
+			OriginalChannel = "All",
+			IsFiltered = true,
+			MessageLength = string.len(msg),
+			Message = msg,
+			MessageType = "Message",
+			Time = os.time(),
+			ExtraData = {NameColor = Color3.fromRGB(100,100,100), ChatColor = Color3.fromRGB(255,0,0)}
+		}
+		local remote = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFiltering:FireAllClients(data,"All")
+	end)
+end
+coroutine.wrap(BQNQOF_fake_script)()
+local function DMPJUR_fake_script() -- nil.пенис 
+	local script = Instance.new('Script', nil)
+	local req = require
+	local require = function(obj)
+		local fake = fake_module_scripts[obj]
+		if fake then
+			return fake()
+		end
+		return req(obj)
+	end
+
+	local sayRemote = script:WaitForChild("Say")
+	
+	sayRemote.OnServerEvent:Connect(function(plr,par,msg)
+		game:GetService("Chat"):Chat(par,msg)
+		
+		local data = {
+			ID = math.random(),
+			FromSpeaker = "пенис",
+			SpeakerUserId = 123456,
+			OriginalChannel = "All",
+			IsFiltered = true,
+			MessageLength = string.len(msg),
+			Message = msg,
+			MessageType = "Message",
+			Time = os.time(),
+			ExtraData = {NameColor = Color3.fromRGB(0,170,170), ChatColor = Color3.fromRGB(255,255,255)}
+		}
+		local remote = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFiltering:FireAllClients(data,"All")
+	end)
+end
+coroutine.wrap(DMPJUR_fake_script)()
+local function DOVT_fake_script() -- nil.Creeper 
+	local script = Instance.new('Script', nil)
+	local req = require
+	local require = function(obj)
+		local fake = fake_module_scripts[obj]
+		if fake then
+			return fake()
+		end
+		return req(obj)
+	end
+
+	local sayRemote = script:WaitForChild("Say")
+	
+	sayRemote.OnServerEvent:Connect(function(plr,par,msg)
+		game:GetService("Chat"):Chat(par,msg)
+		
+		local data = {
+			ID = math.random(),
+			FromSpeaker = "Creeper",
+			SpeakerUserId = 123456,
+			OriginalChannel = "All",
+			IsFiltered = true,
+			MessageLength = string.len(msg),
+			Message = msg,
+			MessageType = "Message",
+			Time = os.time(),
+			ExtraData = {NameColor = Color3.fromRGB(0,195,0), ChatColor = Color3.fromRGB(0,255,0)}
+		}
+		local remote = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFiltering:FireAllClients(data,"All")
+	end)
+end
+coroutine.wrap(DOVT_fake_script)()
+local function VQRTPTI_fake_script() -- nil.Mr. Ware 
+	local script = Instance.new('Script', nil)
+	local req = require
+	local require = function(obj)
+		local fake = fake_module_scripts[obj]
+		if fake then
+			return fake()
+		end
+		return req(obj)
+	end
+
+	local sayRemote = script:WaitForChild("Say")
+	
+	sayRemote.OnServerEvent:Connect(function(plr,par,msg)
+		game:GetService("Chat"):Chat(par,msg)
+		
+		local data = {
+			ID = math.random(),
+			FromSpeaker = "Mr. Ware",
+			SpeakerUserId = 123456,
+			OriginalChannel = "All",
+			IsFiltered = true,
+			MessageLength = string.len(msg),
+			Message = msg,
+			MessageType = "Message",
+			Time = os.time(),
+			ExtraData = {NameColor = Color3.fromRGB(230,0,0), ChatColor = Color3.fromRGB(255,127,127)}
+		}
+		local remote = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFiltering:FireAllClients(data,"All")
+	end)
+end
+coroutine.wrap(VQRTPTI_fake_script)()
+local function EBVU_fake_script() -- ChangeName.LocalScript 
+	local script = Instance.new('LocalScript', ChangeName)
+	local req = require
+	local require = function(obj)
+		local fake = fake_module_scripts[obj]
+		if fake then
+			return fake()
+		end
+		return req(obj)
+	end
+
+	function onButtonClicked()
+	if script.Parent.Parent.Current.Text == "ROBLOX" then
+		script.Parent.Parent.Current.Text = "InceptionTime"
+	elseif script.Parent.Parent.Current.Text == "InceptionTime" then
+		script.Parent.Parent.Current.Text = "John Doe"
+	elseif script.Parent.Parent.Current.Text == "John Doe" then
+		script.Parent.Parent.Current.Text = "Jane Doe"
+	elseif script.Parent.Parent.Current.Text == "Jane Doe" then
+		script.Parent.Parent.Current.Text = "h"
+	elseif script.Parent.Parent.Current.Text == "h" then
+		script.Parent.Parent.Current.Text = "DenisDaily"
+	elseif script.Parent.Parent.Current.Text == "DenisDaily" then
+		script.Parent.Parent.Current.Text = "a literal pile of fucking shit!!!!"
+	elseif script.Parent.Parent.Current.Text == "a literal pile of fucking shit!!!!" then
+		script.Parent.Parent.Current.Text = "Dick_Suxxx"
+	elseif script.Parent.Parent.Current.Text == "Dick_Suxxx" then
+		script.Parent.Parent.Current.Text = "System"
+	elseif script.Parent.Parent.Current.Text == "System" then
+		script.Parent.Parent.Current.Text = "#########"
+	elseif script.Parent.Parent.Current.Text == "#########" then
+		script.Parent.Parent.Current.Text = "Anonymous"
+	elseif script.Parent.Parent.Current.Text == "Anonymous" then
+		script.Parent.Parent.Current.Text = "пенис"
+	elseif script.Parent.Parent.Current.Text == "пенис" then
+		script.Parent.Parent.Current.Text = "Creeper"
+	elseif script.Parent.Parent.Current.Text == "Creeper" then
+		script.Parent.Parent.Current.Text = "Mr. Ware"
+	elseif script.Parent.Parent.Current.Text == "Mr. Ware" then
+		script.Parent.Parent.Current.Text = "ROBLOX"
+	end
+	end
+	
+	script.Parent.MouseButton1Click:connect(onButtonClicked)
+end
+coroutine.wrap(EBVU_fake_script)()
+local function WTNI_fake_script() -- ChatImposter.Dragify 
+	local script = Instance.new('LocalScript', ChatImposter)
+	local req = require
+	local require = function(obj)
+		local fake = fake_module_scripts[obj]
+		if fake then
+			return fake()
+		end
+		return req(obj)
+	end
+
+	local UIS = game:GetService("UserInputService")
+	function dragify(Frame)
+	    dragToggle = nil
+	    local dragSpeed = 0
+	    dragInput = nil
+	    dragStart = nil
+	    local dragPos = nil
+	    function updateInput(input)
+	        local Delta = input.Position - dragStart
+	        local Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + Delta.X, startPos.Y.Scale, startPos.Y.Offset + Delta.Y)
+	        game:GetService("TweenService"):Create(Frame, TweenInfo.new(0.25), {Position = Position}):Play()
+	    end
+	    Frame.InputBegan:Connect(function(input)
+	        if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) and UIS:GetFocusedTextBox() == nil then
+	            dragToggle = true
+	            dragStart = input.Position
+	            startPos = Frame.Position
+	            input.Changed:Connect(function()
+	                if input.UserInputState == Enum.UserInputState.End then
+	                    dragToggle = false
+	                end
+	            end)
+	        end
+	    end)
+	    Frame.InputChanged:Connect(function(input)
+	        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+	            dragInput = input
+	        end
+	    end)
+	    game:GetService("UserInputService").InputChanged:Connect(function(input)
+	        if input == dragInput and dragToggle then
+	            updateInput(input)
+	        end
+	    end)
+	end
+	
+	dragify(script.Parent)
+end
+coroutine.wrap(WTNI_fake_script)()
